@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION randomMembers()
         DECLARE
             step integer  := 0;
         BEGIN
-            LOOP EXIT WHEN step > 2;
+            LOOP EXIT WHEN step > 5;
                 INSERT INTO public."Goods" (good_name, departments_id, categories_id)
                 VALUES (
                     (

@@ -1,3 +1,3 @@
-mod random;
+pub mod random;
 
 pub use random::*;

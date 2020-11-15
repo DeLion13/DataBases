@@ -1,3 +1,5 @@
+pub mod cli;
+
 mod categories_controller;
 mod departments_controller;
 mod goods_controller;

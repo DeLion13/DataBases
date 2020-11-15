@@ -15,9 +15,10 @@ impl Update<Good> for Good {
             values = vec[0].to_owned() + "=\'" + &new.good_name + "\', "
                     + vec[1] + "=" + &new.categories_id.to_string() + ", "
                     + vec[2] + "=" + &new.departments_id.to_string(),
-            col_id = vec[4],
+            col_id = vec[3],
             id = new.goods_id
         );
+        println!("{}", query);
 
         connection.batch_execute(&query).is_ok()
     }
