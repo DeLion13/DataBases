@@ -27,6 +27,8 @@ fn main() {
         // println!("{}", crate::entities::Good::create(new1, &mut client));
     }
 
+    traits::TakeFromTwo::take_from_two(&mut client, String::from("iP"));
+
     // println!("{}", crate::entities::Good::delete_by_id(14, &mut client));
 
     // println!("{}", crate::random::random_generate_goods(&mut client));
