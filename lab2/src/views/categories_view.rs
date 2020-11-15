@@ -2,10 +2,10 @@ use crate::entities::Category;
 
 // Viewing of changes in database with entity Category
 
-pub fn display_deleted_category(category : &Category, is_deleted : bool) {
+pub fn display_deleted_category(id : i32, is_deleted : bool) {
     println!(
         "Category {:#?} was{is_deleted} deleted",
-        id = category,
+        id = id,
         is_deleted = if !is_deleted { "n't" } else { "" }
     );
 }

@@ -2,10 +2,10 @@ use crate::entities::Order;
 
 // Viewing of changes in database with entity Order
 
-pub fn display_deleted_order(order : &Order, is_deleted : bool) {
+pub fn display_deleted_order(id : i32, is_deleted : bool) {
     println!(
         "Order {:#?} was{is_deleted} deleted",
-        id = order,
+        id = id,
         is_deleted = if !is_deleted { "n't" } else { "" }
     );
 }

@@ -2,10 +2,10 @@ use crate::entities::Good;
 
 // Viewing of changes in database with entity Good
 
-pub fn display_deleted_good(good : &Good, is_deleted : bool) {
+pub fn display_deleted_good(id : i32, is_deleted : bool) {
     println!(
         "Good {:#?} was{is_deleted} deleted",
-        id = good,
+        id = id,
         is_deleted = if !is_deleted { "n't" } else { "" }
     );
 }

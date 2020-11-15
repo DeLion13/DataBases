@@ -2,11 +2,11 @@ use crate::entities::*;
 use postgres::Client;
 
 pub trait Update<T> {
-    fn update(new : T, connection : &mut Client) -> bool;
+    fn update(new : &T, connection : &mut Client) -> bool;
 }
 
 impl Update<Good> for Good {
-    fn update(new : Good, connection : &mut Client) -> bool {
+    fn update(new : &Good, connection : &mut Client) -> bool {
         let vec = Good::get_columns();
 
         let query = format!(
@@ -19,14 +19,12 @@ impl Update<Good> for Good {
             id = new.goods_id
         );
 
-        println!("{}", query);
-
         connection.batch_execute(&query).is_ok()
     }
 }
 
 impl Update<Category> for Category {
-    fn update(new : Category, connection : &mut Client) -> bool {
+    fn update(new : &Category, connection : &mut Client) -> bool {
         let vec = Category::get_columns();
 
         let query = format!(
@@ -42,7 +40,7 @@ impl Update<Category> for Category {
 }
 
 impl Update<Department> for Department {
-    fn update(new : Department, connection : &mut Client) -> bool {
+    fn update(new : &Department, connection : &mut Client) -> bool {
         let vec = Department::get_columns();
 
         let query = format!(
@@ -58,7 +56,7 @@ impl Update<Department> for Department {
 }
 
 impl Update<Order> for Order {
-    fn update(new : Order, connection : &mut Client) -> bool {
+    fn update(new : &Order, connection : &mut Client) -> bool {
         let vec = Order::get_columns();
 
         let query = format!(

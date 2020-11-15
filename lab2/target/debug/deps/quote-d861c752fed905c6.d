@@ -1,0 +1,13 @@
+/Users/dd26/Projects/DataBases/lab2/target/debug/deps/quote-d861c752fed905c6.rmeta: /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/lib.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ext.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/format.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ident_fragment.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/to_tokens.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/runtime.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/spanned.rs
+
+/Users/dd26/Projects/DataBases/lab2/target/debug/deps/libquote-d861c752fed905c6.rlib: /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/lib.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ext.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/format.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ident_fragment.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/to_tokens.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/runtime.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/spanned.rs
+
+/Users/dd26/Projects/DataBases/lab2/target/debug/deps/quote-d861c752fed905c6.d: /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/lib.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ext.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/format.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ident_fragment.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/to_tokens.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/runtime.rs /Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/spanned.rs
+
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/lib.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ext.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/format.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/ident_fragment.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/to_tokens.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/runtime.rs:
+/Users/dd26/.cargo/registry/src/github.com-1ecc6299db9ec823/quote-1.0.7/src/spanned.rs:

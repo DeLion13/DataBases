@@ -8,7 +8,7 @@ pub trait Delete {
 impl Delete for Good {
     fn delete_by_id(index : i32, connection : &mut Client) -> bool {
         let query = format!(
-            "DELETE FROM public.\"{table}\" WHERE goods_id={values}",
+            "DELETE FROM public.\"{table}\" WHERE goods_id={values};",
             table = "Goods",
             values = index
         );

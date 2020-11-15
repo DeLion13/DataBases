@@ -2,10 +2,10 @@ use crate::entities::Department;
 
 // Viewing of changes in database with entity Department
 
-pub fn display_deleted_department(department : &Department, is_deleted : bool) {
+pub fn display_deleted_department(id : i32, is_deleted : bool) {
     println!(
         "Department {:#?} was{is_deleted} deleted",
-        id = department,
+        id = id,
         is_deleted = if !is_deleted { "n't" } else { "" }
     );
 }
