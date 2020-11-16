@@ -97,4 +97,10 @@ impl<'a> OrdersController<'a> {
 
         stop();
     }
+
+    #[allow(unused)]
+    pub fn lookup(self : &mut Self) {
+        let is_ok = Order::lookup(&mut self.connection);
+        stop();
+    }
 }

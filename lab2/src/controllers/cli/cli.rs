@@ -14,7 +14,7 @@ pub fn run_cli(connection : &mut Client) {
         match task_number.trim() {
             "1" => tasks::task1(connection),
             "2" => tasks::task2(connection),
-            "Q" => {console_clear(); break},
+            "Q" | "q" => {console_clear(); break},
             _ => {console_clear(); println!("Incorrect number!"); break},
         };
     }

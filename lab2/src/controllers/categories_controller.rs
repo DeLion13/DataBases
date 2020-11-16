@@ -94,4 +94,10 @@ impl<'a> CategoriesController<'a> {
         }
         stop();
     }
+
+    #[allow(unused)]
+    pub fn lookup(self : &mut Self) {
+        let is_ok = Category::lookup(&mut self.connection);
+        stop();
+    }
 }

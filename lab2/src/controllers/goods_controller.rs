@@ -166,4 +166,9 @@ impl<'a> GoodsController<'a> {
         stop();
     }
 
+    #[allow(unused)]
+    pub fn lookup(self : &mut Self) {
+        let is_ok = Good::lookup(&mut self.connection);
+        stop();
+    }
 }

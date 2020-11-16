@@ -20,7 +20,7 @@ pub fn task1(connection : &mut Client) {
             "2" => task1_categories_menu(connection),
             "3" => task1_departments_menu(connection),
             "4" => task1_orders_menu(connection),
-            "Q" => {console_clear(); break},
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }
@@ -43,8 +43,8 @@ pub fn task1_goods_menu(connection : &mut Client) {
             "2" => gc.update(),
             "3" => gc.delete(),
             "4" => gc.random(),
-            "5" => println!("Lookup"),
-            "Q" => {console_clear(); break},
+            "5" => gc.lookup(),
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }
@@ -66,8 +66,8 @@ pub fn task1_categories_menu(connection : &mut Client) {
             "1" => cc.create(),
             "2" => cc.update(),
             "3" => cc.delete(),
-            "4" => println!("Lookup"),
-            "Q" => {console_clear(); break},
+            "4" => cc.lookup(),
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }
@@ -89,8 +89,8 @@ pub fn task1_departments_menu(connection : &mut Client) {
             "1" => dc.create(),
             "2" => dc.update(),
             "3" => dc.delete(),
-            "4" => println!("Lookup"),
-            "Q" => {console_clear(); break},
+            "4" => dc.lookup(),
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }
@@ -112,8 +112,8 @@ pub fn task1_orders_menu(connection : &mut Client) {
             "1" => oc.create(),
             "2" => oc.update(),
             "3" => oc.delete(),
-            "4" => println!("Lookup"),
-            "Q" => {console_clear(); break},
+            "4" => oc.lookup(),
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }
@@ -144,7 +144,7 @@ pub fn task2(connection : &mut Client) {
                 gc.filter_goods_departments();
                 stop();
             },
-            "Q" => {console_clear(); break},
+            "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
     }

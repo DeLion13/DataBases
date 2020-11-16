@@ -94,4 +94,10 @@ impl<'a> DepartmentsController<'a> {
         }
         stop();
     }
+
+    #[allow(unused)]
+    pub fn lookup(self : &mut Self) {
+        let is_ok = Department::lookup(&mut self.connection);
+        stop();
+    }
 }
