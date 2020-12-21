@@ -31,7 +31,7 @@ pub fn task1_goods_menu(connection : &mut PgConnPool) {
 
     loop {
         console_clear();
-        println!("Choose MODE:\n  1 : Create\n  2 : Update\n  3 : Delete\n  4 : Generate\n  5 : Lookup\n  Q : Quit\n");
+        println!("Choose MODE:\n  1 : Create\n  2 : Update\n  3 : Delete\n  4 : Lookup\n  Q : Quit\n");
 
         let mut mode_number = String::new();
         stdin().read_line(&mut mode_number);
@@ -40,8 +40,7 @@ pub fn task1_goods_menu(connection : &mut PgConnPool) {
             "1" => gc.create(),
             "2" => gc.update(),
             "3" => gc.delete(),
-            "4" => gc.random(),
-            "5" => gc.lookup(),
+            "4" => gc.lookup(),
             "Q" | "q" => {console_clear(); break},
             _ => println!("Incorrect number!"),
         };
