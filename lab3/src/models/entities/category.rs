@@ -1,27 +1,23 @@
-use postgres::Row;
+use diesel::{Queryable, Insertable};
+use crate::{models::schema::Categories};
 
-#[derive(Debug)]
+#[derive(Debug, Queryable, Insertable, AsChangeset)]
+#[table_name="Categories"]
 pub struct Category {
     pub categories_id : i32,
     pub category_name : String,
-    pub table_name    : String
 }
 
-impl From<Row> for Category {
-    fn from(row: Row) -> Self { 
-        Self {
-            categories_id : row.get("categories_id"),
-            category_name : row.get("category_name"),
-            table_name    : String::from("Categories")
-        }
-    }
+#[derive(Debug, Queryable)]
+pub struct CategoryUpdate {
+    pub categories_id: i32,
+    pub category_name: Option<Option<String>>,
 }
 
-impl<'a> Category {
-    pub fn get_columns() -> Vec<&'a str> {
-        let mut v = Vec::new();
-        v.push("categories_id");
-        v.push("category_name");
-        v
-    }
-}
+// impl From<crate::cli::CategoryUpdate> for CategoryUpdate {
+
+//     fn from(cli_upd: crate::cli::CategoryUpdate) -> Self { Self {
+//         categories_id:  cli_upd.categories_id,
+//         category_name:  cli_upd.category_name,
+//     }}
+// }

@@ -1,15 +1,16 @@
 use crate::models::entities::Good;
 use crate::models::traits::*;
 use crate::cli::*;
-use postgres::Client;
+pub use crate::database::PgConnPool;
 use std::io::stdin;
+use diesel::prelude::*;
 
 pub struct GoodsController<'a> {
-    connection : &'a mut Client
+    connection : &'a mut PgConnPool
 }
 
 impl<'a> GoodsController<'a> {
-    pub fn new(connection : &'a mut Client) -> Self {
+    pub fn new(connection : &'a mut PgConnPool) -> Self {
         Self {connection}
     }
 
@@ -17,14 +18,6 @@ impl<'a> GoodsController<'a> {
         let good = Good::find_by_id(id, self.connection);
 
         crate::views::display_good_by_id(&good);
-    }
-
-    pub fn get_by_name(self : &mut Self, name : String) {
-        let good = Good::find_by_name(name, &mut self.connection);
-
-        good
-            .iter()
-            .for_each(|good| crate::views::display_good_by_id(&good));
     }
 
     #[allow(unused)]
@@ -40,12 +33,21 @@ impl<'a> GoodsController<'a> {
         println!("  Category id:");
         stdin().read_line(&mut cat);
 
+        let tb = crate::schema::Goods::table;
+        let all = crate::schema::Goods::all_columns;
+        let len = tb.select(all)
+            .load::<(i32, String, i32, i32)>(&(self.connection.get().unwrap()))
+            .unwrap()
+            .last()
+            .unwrap()
+            .0;
+
+
         let good = Good {
             good_name : String::from(new_name.trim()),
             categories_id : cat.trim().parse::<i32>().unwrap_or(1),
             departments_id : dep.trim().parse::<i32>().unwrap_or(1),
-            goods_id : 0,
-            table_name : String::from("Goods")
+            goods_id : len + 1,
         };
 
         let is_ok = Good::create(&good, &mut self.connection);
@@ -80,7 +82,6 @@ impl<'a> GoodsController<'a> {
             categories_id : new_cat.trim().parse::<i32>().unwrap_or(1),
             departments_id : new_dep.trim().parse::<i32>().unwrap_or(1),
             goods_id : id.trim().parse::<i32>().unwrap_or(1),
-            table_name : String::from("Goods")
         };
 
         let is_ok = Good::update(&good, &mut self.connection);
@@ -112,45 +113,6 @@ impl<'a> GoodsController<'a> {
         }
 
         stop();
-    }
-
-    #[allow(unused)]
-    pub fn filter_goods_orders(self : &mut Self) {
-        let mut name1 = String::new();
-        let mut name2 = String::new();
-
-        println!("[FILTER MODE]\n  Input orders name filter:");
-        stdin().read_line(&mut name1);
-        println!("  Input goods name filter:");
-        stdin().read_line(&mut name2);
-
-        TakeFromTwo::filter_orders_goods(&mut self.connection, String::from(name1.trim()), String::from(name2.trim()));
-    }
-
-    #[allow(unused)]
-    pub fn filter_goods_departments(self : &mut Self) {
-        let mut name1 = String::new();
-        let mut name2 = String::new();
-
-        println!("[FILTER MODE]\n  Input goods name filter:");
-        stdin().read_line(&mut name1);
-        println!("  Input departments name filter:");
-        stdin().read_line(&mut name2);
-
-        TakeFromTwo::filter_goods_departments(&mut self.connection, String::from(name1.trim()), String::from(name2.trim()));
-    }
-
-    #[allow(unused)]
-    pub fn filter_goods_categories(self : &mut Self) {
-        let mut name1 = String::new();
-        let mut name2 = String::new();
-
-        println!("[FILTER MODE]\n  Input goods name filter:");
-        stdin().read_line(&mut name1);
-        println!("  Input categories name filter:");
-        stdin().read_line(&mut name2);
-
-        TakeFromTwo::filter_goods_categories(&mut self.connection, String::from(name1.trim()), String::from(name2.trim()));
     }
 
     #[allow(unused)]

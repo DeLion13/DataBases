@@ -1,15 +1,16 @@
 use crate::models::entities::Order;
 use crate::models::traits::*;
 use crate::cli::*;
-use postgres::Client;
+pub use crate::database::PgConnPool;
 use std::io::stdin;
+use diesel::prelude::*;
 
 pub struct OrdersController<'a> {
-    connection : &'a mut Client
+    connection : &'a mut PgConnPool
 }
 
 impl<'a> OrdersController<'a> {
-    pub fn new(connection : &'a mut Client) -> Self {
+    pub fn new(connection : &'a mut PgConnPool) -> Self {
         Self {connection}
     }
 
@@ -19,14 +20,6 @@ impl<'a> OrdersController<'a> {
         crate::views::display_order_by_id(&order);
     }
 
-    pub fn get_by_name(self : &mut Self, name : String) {
-        let order = Order::find_by_name(name, &mut self.connection);
-
-        order
-            .iter()
-            .for_each(|order| crate::views::display_order_by_id(&order));
-    }
-
     #[allow(unused)]
     pub fn create(self : &mut Self) {
         let mut new_name = String::new();
@@ -34,10 +27,18 @@ impl<'a> OrdersController<'a> {
         println!("[INSERT MODE]\n  Name:");
         stdin().read_line(&mut new_name);
 
+        let tb = crate::schema::Orders::table;
+        let all = crate::schema::Orders::all_columns;
+        let len = tb.select(all)
+            .load::<(i32, String)>(&(self.connection.get().unwrap()))
+            .unwrap()
+            .last()
+            .unwrap()
+            .0;
+
         let order = Order {
             orders_name : String::from(new_name.trim()),
-            orders_id : 0,
-            table_name : String::from("Orders")
+            orders_id : len + 1,
         };
 
         let is_ok = Order::create(&order, &mut self.connection);
@@ -64,7 +65,6 @@ impl<'a> OrdersController<'a> {
         let order = Order {
             orders_name : String::from(new_name.trim()),
             orders_id : id.trim().parse::<i32>().unwrap_or(1),
-            table_name : String::from("Orders")
         };
 
         let is_ok = Order::update(&order, &mut self.connection);

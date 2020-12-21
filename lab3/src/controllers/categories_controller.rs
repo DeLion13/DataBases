@@ -1,15 +1,16 @@
 use crate::models::entities::Category;
 use crate::models::traits::*;
 use crate::cli::*;
-use postgres::Client;
 use std::io::stdin;
+pub use crate::database::PgConnPool;
+use diesel::prelude::*;
 
 pub struct CategoriesController<'a> {
-    connection : &'a mut Client
+    connection : &'a mut PgConnPool
 }
 
 impl<'a> CategoriesController<'a> {
-    pub fn new(connection : &'a mut Client) -> Self {
+    pub fn new(connection : &'a mut PgConnPool) -> Self {
         Self {connection}
     }
 
@@ -19,14 +20,6 @@ impl<'a> CategoriesController<'a> {
         crate::views::display_category_by_id(&category);
     }
 
-    pub fn get_by_name(self : &mut Self, name : String) {
-        let category = Category::find_by_name(name, &mut self.connection);
-
-        category
-            .iter()
-            .for_each(|category| crate::views::display_category_by_id(&category));
-    }
-
     #[allow(unused)]
     pub fn create(self : &mut Self) {
         let mut new_name = String::new();
@@ -34,10 +27,18 @@ impl<'a> CategoriesController<'a> {
         println!("[INSERT MODE]\n  Name:");
         stdin().read_line(&mut new_name);
 
+        let tb = crate::schema::Categories::table;
+        let all = crate::schema::Categories::all_columns;
+        let len = tb.select(all)
+            .load::<(i32, String)>(&(self.connection.get().unwrap()))
+            .unwrap()
+            .last()
+            .unwrap()
+            .0;
+
         let category = Category {
             category_name : String::from(new_name.trim()),
-            categories_id : 0,
-            table_name : String::from("Category")
+            categories_id : len + 1,
         };
 
         let is_ok = Category::create(&category, &mut self.connection);
@@ -63,7 +64,6 @@ impl<'a> CategoriesController<'a> {
         let category = Category {
             category_name : String::from(new_name.trim()),
             categories_id : id.trim().parse::<i32>().unwrap_or(1),
-            table_name : String::from("Category")
         };
 
         let is_ok = Category::update(&category, &mut self.connection);

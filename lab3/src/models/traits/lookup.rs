@@ -1,80 +1,63 @@
 use crate::entities::*;
-use postgres::Client;
+use diesel::prelude::*;
+pub use crate::database::PgConnPool;
 
 pub trait Lookup<T> {
-    fn lookup(connection : &mut Client);
+    fn lookup(connection : &mut PgConnPool);
 }
 
 impl Lookup<Good> for Good {
-    fn lookup(connection : &mut Client) {
-        let query = format!(
-            "SELECT * FROM public.\"Goods\""
-        );
-
-        connection.query(&query[..], &[])
+    fn lookup(connection : &mut PgConnPool) {
+        let tb = crate::schema::Goods::table;
+        let all = crate::schema::Goods::all_columns;
+        tb.select(all)
+            .load::<(i32, String, i32, i32)>(&(connection.get().unwrap()))
             .unwrap()
             .into_iter()
             .for_each(|cur| {
-                let goods_id : i32 = cur.get("goods_id");
-                let good_name : String = cur.get("good_name");
-                let departments_id : i32 = cur.get("departments_id");
-                let categories_id : i32 = cur.get("categories_id");
-
-                println!("{} {} {} {}", goods_id, good_name, departments_id, categories_id);
+                println!("Id: {} Name: {} Dep.: {} Categ.: {}", cur.0, cur.1, cur.2, cur.3);
             });
     }
 }
 
 impl Lookup<Category> for Category {
-    fn lookup(connection : &mut Client) {
-        let query = format!(
-            "SELECT * FROM public.\"Categories\""
-        );
-
-        connection.query(&query[..], &[])
+    fn lookup(connection : &mut PgConnPool) {
+        let tb = crate::schema::Categories::table;
+        let all = crate::schema::Categories::all_columns;
+        tb.select(all)
+            .load::<(i32, String)>(&(connection.get().unwrap()))
             .unwrap()
             .into_iter()
             .for_each(|cur| {
-                let categories_id : i32 = cur.get("categories_id");
-                let category_name : String = cur.get("category_name");
-
-                println!("{} {}", categories_id, category_name);
+                println!("Id: {} Name: {}", cur.0, cur.1);
             });
     }
 }
 
 impl Lookup<Department> for Department {
-    fn lookup(connection : &mut Client) {
-        let query = format!(
-            "SELECT * FROM public.\"Departments\""
-        );
-
-        connection.query(&query[..], &[])
+    fn lookup(connection : &mut PgConnPool) {
+        let tb = crate::schema::Departments::table;
+        let all = crate::schema::Departments::all_columns;
+        tb.select(all)
+            .load::<(i32, String)>(&(connection.get().unwrap()))
             .unwrap()
             .into_iter()
             .for_each(|cur| {
-                let departments_id : i32 = cur.get("departments_id");
-                let department_name : String = cur.get("department_name");
-
-                println!("{} {}", departments_id, department_name);
+                println!("Id: {} Name: {}", cur.0, cur.1);
             });
     }
 }
 
 impl Lookup<Order> for Order {
-    fn lookup(connection : &mut Client) {
-        let query = format!(
-            "SELECT * FROM public.\"Orders\""
-        );
-
-        connection.query(&query[..], &[])
+    fn lookup(connection : &mut PgConnPool) {
+        let tb = crate::schema::Orders::table;
+        let all = crate::schema::Orders::all_columns;
+        tb.select(all)
+            .load::<(i32, String)>(&(connection.get().unwrap()))
             .unwrap()
             .into_iter()
             .for_each(|cur| {
-                let orders_id : i32 = cur.get("orders_id");
-                let orders_name : String = cur.get("orders_name");
-
-                println!("{} {}", orders_id, orders_name);
+                println!("Id: {} Name: {}", cur.0, cur.1);
             });
     }
 }

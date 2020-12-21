@@ -1,15 +1,16 @@
 use crate::models::entities::Department;
 use crate::models::traits::*;
 use crate::cli::*;
-use postgres::Client;
+pub use crate::database::PgConnPool;
 use std::io::stdin;
+use diesel::prelude::*;
 
 pub struct DepartmentsController<'a> {
-    connection : &'a mut Client
+    connection : &'a mut PgConnPool
 }
 
 impl<'a> DepartmentsController<'a> {
-    pub fn new(connection : &'a mut Client) -> Self {
+    pub fn new(connection : &'a mut PgConnPool) -> Self {
         Self {connection}
     }
 
@@ -19,14 +20,6 @@ impl<'a> DepartmentsController<'a> {
         crate::views::display_department_by_id(&department);
     }
 
-    pub fn get_by_name(self : &mut Self, name : String) {
-        let department = Department::find_by_name(name, &mut self.connection);
-
-        department
-            .iter()
-            .for_each(|department| crate::views::display_department_by_id(&department));
-    }
-
     #[allow(unused)]
     pub fn create(self : &mut Self) {
         let mut new_name = String::new();
@@ -34,10 +27,18 @@ impl<'a> DepartmentsController<'a> {
         println!("[INSERT MODE]\n  Name:");
         stdin().read_line(&mut new_name);
 
+        let tb = crate::schema::Departments::table;
+        let all = crate::schema::Departments::all_columns;
+        let len = tb.select(all)
+            .load::<(i32, String)>(&(self.connection.get().unwrap()))
+            .unwrap()
+            .last()
+            .unwrap()
+            .0;
+
         let department = Department {
             department_name : String::from(new_name.trim()),
-            departments_id : 0,
-            table_name : String::from("Department")
+            departments_id : len + 1,
         };
 
         let is_ok = Department::create(&department, &mut self.connection);
@@ -63,7 +64,6 @@ impl<'a> DepartmentsController<'a> {
         let department = Department {
             department_name : String::from(new_name.trim()),
             departments_id : id.trim().parse::<i32>().unwrap_or(1),
-            table_name : String::from("Department")
         };
         
         let is_ok = Department::update(&department, &mut self.connection);

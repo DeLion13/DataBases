@@ -1,27 +1,24 @@
-use postgres::Row;
+use diesel::{Queryable, Insertable};
+use crate::{models::schema::Orders};
 
-#[derive(Debug)]
+
+#[derive(Debug, Queryable, Insertable, AsChangeset)]
+#[table_name="Orders"]
 pub struct Order {
     pub orders_id   : i32,
     pub orders_name : String,
-    pub table_name  : String
 }
 
-impl From<Row> for Order {
-    fn from(row: Row) -> Self {
-        Self {
-            orders_id   : row.get("orders_id"),
-            orders_name : row.get("orders_name"),
-            table_name    : String::from("Orders")
-        }
-    }
+#[derive(Debug, Queryable)]
+pub struct OrderUpdate {
+    pub orders_id: i32,
+    pub orders_name: Option<Option<String>>,
 }
 
-impl<'a> Order {
-    pub fn get_columns() -> Vec<&'a str> {
-        let mut v = Vec::new();
-        v.push("orders_id");
-        v.push("orders_name");
-        v
-    }
-}
+// impl From<crate::cli::OrderUpdate> for OrderUpdate {
+
+//     fn from(cli_upd: crate::cli::OrderUpdate) -> Self { Self {
+//         orders_id:    cli_upd.orders_id,
+//         orders_name:  cli_upd.orders_name,
+//     }}
+// }

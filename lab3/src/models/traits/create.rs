@@ -1,56 +1,47 @@
 use crate::entities::*;
-use postgres::Client;
+use diesel::prelude::*;
+use crate::{database::PgConnPool};
 
 pub trait Create<T> {
-    fn create(new : &T, connection : &mut Client) -> bool;
+    fn create(new : &T, connection : &mut PgConnPool) -> bool;
 }
-
+#[allow(unused)]
 impl Create<Good> for Good {
-    fn create(new : &Good, connection : &mut Client) -> bool {
-        let query = format!(
-            "INSERT INTO public.\"{table}\" VALUES (\'{values}) returning *;",
-            table = new.table_name,
-            values = String::from(&new.good_name) + "\', "
-                    + &new.departments_id.to_string() + ", "
-                    + &new.categories_id.to_string()
-        );
+    fn create(new : &Good, connection : &mut PgConnPool) -> bool {
+        diesel::insert_into(crate::schema::Goods::table)
+            .values(new)
+            .get_result::<Good>(&(connection.get().unwrap()));
 
-        connection.query(&query[..], &[]).is_ok()
+        true
     }
 }
-
+#[allow(unused)]
 impl Create<Category> for Category {
-    fn create(new : &Category, connection : &mut Client) -> bool {
-        let query = format!(
-            "INSERT INTO public.\"{table}\" VALUES \'{values}\'",
-            table = new.table_name,
-            values = new.category_name
-        );
+    fn create(new : &Category, connection : &mut PgConnPool) -> bool {
+        diesel::insert_into(crate::schema::Categories::table)
+            .values(new)
+            .get_result::<Category>(&(connection.get().unwrap()));
 
-        connection.query(&query[..], &[]).is_ok()
+        true
     }
 }
-
+#[allow(unused)]
 impl Create<Department> for Department {
-    fn create(new : &Department, connection : &mut Client) -> bool {
-        let query = format!(
-            "INSERT INTO public.\"{table}\" VALUES \'{values}\'",
-            table = new.table_name,
-            values = new.department_name
-        );
+    fn create(new : &Department, connection : &mut PgConnPool) -> bool {
+        diesel::insert_into(crate::schema::Departments::table)
+            .values(new)
+            .get_result::<Department>(&(connection.get().unwrap()));
 
-        connection.query(&query[..], &[]).is_ok()
+        true
     }
 }
-
+#[allow(unused)]
 impl Create<Order> for Order {
-    fn create(new : &Order, connection : &mut Client) -> bool {
-        let query = format!(
-            "INSERT INTO public.\"{table}\" VALUES \'{values}\'",
-            table = new.table_name,
-            values = new.orders_name
-        );
+    fn create(new : &Order, connection : &mut PgConnPool) -> bool {
+        diesel::insert_into(crate::schema::Orders::table)
+            .values(new)
+            .get_result::<Order>(&(connection.get().unwrap()));
 
-        connection.query(&query[..], &[]).is_ok()
+        true
     }
 }

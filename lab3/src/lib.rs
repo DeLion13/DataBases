@@ -1,7 +1,12 @@
-mod models;
-mod views;
-mod controllers;
+#[macro_use]
+extern crate diesel;
 
-pub use models::*;
+mod database;
+mod controllers;
+mod views;
+mod models;
+
 pub use views::*;
+pub use models::*;
 pub use controllers::*;
+pub use database::*;

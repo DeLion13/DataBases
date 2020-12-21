@@ -1,19 +1,18 @@
-pub use postgres::Client;
 pub use std::io::stdin;
 pub use crate::cli::*;
+pub use crate::database::PgConnPool;
 
 #[allow(unused)]
-pub fn run_cli(connection : &mut Client) {
+pub fn run_cli(connection : &mut PgConnPool) {
     console_clear();
     loop {
-        println!("\nChoose TASK:\n  1 : Task 1\n  2 : Task 2\n  Q : Quit\n");
+        println!("\nChoose action:\n  1 : Tables\n  Q : Quit\n");
     
         let mut task_number = String::new();
         stdin().read_line(&mut task_number);
         
         match task_number.trim() {
             "1" => tasks::task1(connection),
-            "2" => tasks::task2(connection),
             "Q" | "q" => {console_clear(); break},
             _ => {console_clear(); println!("Incorrect number!"); break},
         };
