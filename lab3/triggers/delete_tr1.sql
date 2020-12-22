@@ -22,5 +22,6 @@ begin transaction isolation level read committed;
 	DELETE FROM public."Goods" WHERE goods_id = 32;
 	
 	DELETE FROM public."Goods" WHERE goods_id = 33;
+commit;
 
-	DROP TRIGGER setDelName on public."Goods";
+DROP TRIGGER setDelName on public."Goods";
