@@ -1,6 +1,6 @@
 ## About
 
-An application that sends queries to the database according to your commands. Used PostgreSQL database and diesel library. Program code developed according to ORM template.
+An application for working with database according to your commands. Used PostgreSQL database and diesel library. Program code developed according to ORM template.
 
 ## Prerequisites
 
